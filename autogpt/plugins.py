@@ -19,28 +19,6 @@ from autogpt.logs import logger
 from autogpt.models.base_open_ai_plugin import BaseOpenAIPlugin
 
 
-def inspect_zip_for_modules(zip_path: str, debug: bool = False) -> list[str]:
-    """
-    Inspect a zipfile for a modules.
-
-    Args:
-        zip_path (str): Path to the zipfile.
-        debug (bool, optional): Enable debug logging. Defaults to False.
-
-    Returns:
-        list[str]: The list of module names found or empty list if none were found.
-    """
-    result = []
-    with zipfile.ZipFile(zip_path, "r") as zfile:
-        for name in zfile.namelist():
-            if name.endswith("__init__.py") and not name.startswith("__MACOSX"):
-                logger.debug(f"Found module '{name}' in the zipfile at: {name}")
-                result.append(name)
-    if len(result) == 0:
-        logger.debug(f"Module '__init__.py' not found in the zipfile @ {zip_path}.")
-    return result
-
-
 def write_dict_to_json_file(data: dict, file_path: str) -> None:
     """
     Write a dictionary to a JSON file.

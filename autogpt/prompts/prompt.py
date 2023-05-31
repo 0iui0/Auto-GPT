@@ -6,7 +6,6 @@ from autogpt.llm import ApiManager
 from autogpt.logs import logger
 from autogpt.prompts.generator import PromptGenerator
 from autogpt.setup import prompt_user
-from autogpt.utils import clean_input
 
 CFG = Config()
 
@@ -93,14 +92,13 @@ def construct_main_ai_config() -> AIConfig:
             f"Would you like me to return to being {config.ai_name}?",
             speak_text=True,
         )
-        should_continue = clean_input(
-            f"""Continue with the last settings?
+        should_continue = """Continue with the last settings?
 Name:  {config.ai_name}
 Role:  {config.ai_role}
 Goals: {config.ai_goals}
 API Budget: {"infinite" if config.api_budget <= 0 else f"${config.api_budget}"}
 Continue ({CFG.authorise_key}/{CFG.exit_key}): """
-        )
+
         if should_continue.lower() == CFG.exit_key:
             config = AIConfig()
 

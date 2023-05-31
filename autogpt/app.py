@@ -4,14 +4,10 @@ from typing import Dict, List, NoReturn, Union
 
 from autogpt.agent.agent_manager import AgentManager
 from autogpt.commands.command import CommandRegistry, command
-from autogpt.commands.web_requests import scrape_links, scrape_text
 from autogpt.config import Config
 from autogpt.logs import logger
 from autogpt.memory import get_memory
-from autogpt.processing.text import summarize_text
 from autogpt.prompts.generator import PromptGenerator
-from autogpt.speech import say_text
-from autogpt.url_utils.validators import validate_url
 
 CFG = Config()
 AGENT_MANAGER = AgentManager()
@@ -136,38 +132,6 @@ def execute_command(
         return f"Error: {str(e)}"
 
 
-@command(
-    "get_text_summary", "Get text summary", '"url": "<url>", "question": "<question>"'
-)
-@validate_url
-def get_text_summary(url: str, question: str) -> str:
-    """Return the results of a Google search
-
-    Args:
-        url (str): The url to scrape
-        question (str): The question to summarize the text for
-
-    Returns:
-        str: The summary of the text
-    """
-    text = scrape_text(url)
-    summary = summarize_text(url, text, question)
-    return f""" "Result" : {summary}"""
-
-
-@command("get_hyperlinks", "Get text summary", '"url": "<url>"')
-@validate_url
-def get_hyperlinks(url: str) -> Union[str, List[str]]:
-    """Return the results of a Google search
-
-    Args:
-        url (str): The url to scrape
-
-    Returns:
-        str or list: The hyperlinks on the page
-    """
-    return scrape_links(url)
-
 
 @command(
     "start_agent",
@@ -194,12 +158,11 @@ def start_agent(name: str, task: str, prompt: str, model=CFG.fast_llm_model) -> 
 
     # Create agent
     if CFG.speak_mode:
-        say_text(agent_intro, 1)
+        pass
     key, ack = AGENT_MANAGER.create_agent(task, first_message, model)
 
     if CFG.speak_mode:
-        say_text(f"Hello {voice_name}. Your task is as follows. {task}.")
-
+        pass
     # Assign task (prompt), get response
     agent_response = AGENT_MANAGER.message_agent(key, prompt)
 

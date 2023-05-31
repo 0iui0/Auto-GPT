@@ -4,7 +4,6 @@ import re
 from colorama import Fore, Style
 from jinja2 import Template
 
-from autogpt import utils
 from autogpt.config import Config
 from autogpt.config.ai_config import AIConfig
 from autogpt.llm import create_chat_completion
@@ -43,9 +42,8 @@ def prompt_user() -> AIConfig:
         speak_text=True,
     )
 
-    user_desire = utils.clean_input(
-        f"{Fore.LIGHTBLUE_EX}I want Auto-GPT to{Style.RESET_ALL}: "
-    )
+    user_desire = "{Fore.LIGHTBLUE_EX}I want Auto-GPT to{Style.RESET_ALL}: "
+    
 
     if user_desire == "":
         user_desire = DEFAULT_USER_DESIRE_PROMPT  # Default prompt
@@ -98,7 +96,7 @@ def generate_aiconfig_manual() -> AIConfig:
     logger.typewriter_log(
         "Name your AI: ", Fore.GREEN, "For example, 'Entrepreneur-GPT'"
     )
-    ai_name = utils.clean_input("AI Name: ")
+    ai_name = "AI Name: "
     if ai_name == "":
         ai_name = "Entrepreneur-GPT"
 
@@ -113,7 +111,7 @@ def generate_aiconfig_manual() -> AIConfig:
         "For example, 'an AI designed to autonomously develop and run businesses with"
         " the sole goal of increasing your net worth.'",
     )
-    ai_role = utils.clean_input(f"{ai_name} is: ")
+    ai_role = "{ai_name} is: "
     if ai_role == "":
         ai_role = "an AI designed to autonomously develop and run businesses with the"
         " sole goal of increasing your net worth."
@@ -128,7 +126,7 @@ def generate_aiconfig_manual() -> AIConfig:
     logger.info("Enter nothing to load defaults, enter nothing when finished.")
     ai_goals = []
     for i in range(5):
-        ai_goal = utils.clean_input(f"{Fore.LIGHTBLUE_EX}Goal{Style.RESET_ALL} {i+1}: ")
+        ai_goal = "{Fore.LIGHTBLUE_EX}Goal{Style.RESET_ALL} {i+1}: "
         if ai_goal == "":
             break
         ai_goals.append(ai_goal)
@@ -146,9 +144,8 @@ def generate_aiconfig_manual() -> AIConfig:
         "For example: $1.50",
     )
     logger.info("Enter nothing to let the AI run without monetary limit")
-    api_budget_input = utils.clean_input(
-        f"{Fore.LIGHTBLUE_EX}Budget{Style.RESET_ALL}: $"
-    )
+    api_budget_input = "{Fore.LIGHTBLUE_EX}Budget{Style.RESET_ALL}: $"
+    
     if api_budget_input == "":
         api_budget = 0.0
     else:

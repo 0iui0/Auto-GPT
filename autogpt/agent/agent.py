@@ -15,9 +15,7 @@ from autogpt.log_cycle.log_cycle import (
     LogCycleHandler,
 )
 from autogpt.logs import logger, print_assistant_thoughts
-from autogpt.speech import say_text
 from autogpt.spinner import Spinner
-from autogpt.utils import clean_input
 from autogpt.workspace import Workspace
 
 
@@ -135,7 +133,7 @@ class Agent:
                     )
                     command_name, arguments = get_command(assistant_reply_json)
                     if cfg.speak_mode:
-                        say_text(f"I want to execute {command_name}")
+                        pass
 
                     arguments = self._resolve_pathlike_command_args(arguments)
 
@@ -168,11 +166,10 @@ class Agent:
                 )
                 while True:
                     if cfg.chat_messages_enabled:
-                        console_input = clean_input("Waiting for your response...")
+                        console_input = "Waiting for your response..."
                     else:
-                        console_input = clean_input(
-                            Fore.MAGENTA + "Input:" + Style.RESET_ALL
-                        )
+                        console_input = Fore.MAGENTA + "Input:" + Style.RESET_ALL
+                    
                     if console_input.lower().strip() == cfg.authorise_key:
                         user_input = "GENERATE NEXT COMMAND JSON"
                         break

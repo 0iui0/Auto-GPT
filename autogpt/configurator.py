@@ -2,7 +2,6 @@
 import click
 from colorama import Back, Fore, Style
 
-from autogpt import utils
 from autogpt.config import Config
 from autogpt.logs import logger
 from autogpt.memory import get_supported_memory_backends
@@ -102,12 +101,6 @@ def create_config(
         file = ai_settings_file
 
         # Validate file
-        (validated, message) = utils.validate_yaml_file(file)
-        if not validated:
-            logger.typewriter_log("FAILED FILE VALIDATION", Fore.RED, message)
-            logger.double_check()
-            exit(1)
-
         logger.typewriter_log("Using AI Settings File:", Fore.GREEN, file)
         CFG.ai_settings_file = file
         CFG.skip_reprompt = True

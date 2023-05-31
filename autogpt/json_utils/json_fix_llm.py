@@ -13,7 +13,6 @@ from autogpt.config import Config
 from autogpt.json_utils.json_fix_general import correct_json
 from autogpt.llm import call_ai_function
 from autogpt.logs import logger
-from autogpt.speech import say_text
 
 JSON_SCHEMA = """
 {
@@ -126,7 +125,7 @@ def fix_json_using_multiple_techniques(assistant_reply: str) -> Dict[Any, Any]:
         assistant_reply,
     )
     if CFG.speak_mode:
-        say_text("I have received an invalid JSON response from the OpenAI API.")
+        pass
 
     return {}
 
@@ -207,10 +206,7 @@ def try_ai_fix(
 
 def attempt_to_fix_json_by_finding_outermost_brackets(json_string: str):
     if CFG.speak_mode and CFG.debug_mode:
-        say_text(
-            "I have received an invalid JSON response from the OpenAI API. "
-            "Trying to fix it now."
-        )
+        pass
         logger.error("Attempting to fix JSON by finding outermost brackets\n")
 
     try:
@@ -224,7 +220,7 @@ def attempt_to_fix_json_by_finding_outermost_brackets(json_string: str):
                 title="Apparently json was fixed.", title_color=Fore.GREEN
             )
             if CFG.speak_mode and CFG.debug_mode:
-                say_text("Apparently json was fixed.")
+                pass
         else:
             return {}
 
@@ -232,7 +228,7 @@ def attempt_to_fix_json_by_finding_outermost_brackets(json_string: str):
         if CFG.debug_mode:
             logger.error(f"Error: Invalid JSON: {json_string}\n")
         if CFG.speak_mode:
-            say_text("Didn't work. I will have to ignore this response then.")
+            pass
         logger.error("Error: Invalid JSON, setting it to empty JSON now.\n")
         json_string = {}
 

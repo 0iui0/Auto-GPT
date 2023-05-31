@@ -11,7 +11,6 @@ from colorama import Fore, Style
 
 from autogpt.log_cycle.json_handler import JsonFileHandler, JsonFormatter
 from autogpt.singleton import Singleton
-from autogpt.speech import say_text
 
 
 class Logger(metaclass=Singleton):
@@ -287,5 +286,5 @@ def print_assistant_thoughts(
             logger.typewriter_log("- ", Fore.GREEN, line.strip())
     logger.typewriter_log("CRITICISM:", Fore.YELLOW, f"{assistant_thoughts_criticism}")
     # Speak the assistant's thoughts
-    if speak_mode and assistant_thoughts_speak:
-        say_text(assistant_thoughts_speak)
+    if assistant_thoughts_speak:
+        logger.typewriter_log("SPEAK:", Fore.YELLOW, assistant_thoughts_speak)
